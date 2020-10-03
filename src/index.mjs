@@ -19,11 +19,26 @@ app.use(cors());
 
 
 app.get('/api', (request, response) => {
-    response.json({
+    return response.json({
         economy,
         technology,
-        world
+        world,
     });
+});
+
+app.get('/api/:subject', (request, response) => {
+    const { subject } = request.params;
+
+    return response.json(GROUP_NEWS[subject]);
+});
+
+app.get('/api/:subject/:id', (request, response) => {
+    const { subject, id } = request.params;
+
+    const allNews = GROUP_NEWS[subject];
+    const news = allNews.value.find(news => news.id === id);
+
+    return response.json(news)
 });
 
 app.listen(PORT, () => {
